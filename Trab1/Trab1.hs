@@ -1,9 +1,8 @@
 -- Intruções:
 -- -  Não importe nenhuma biblioteca EXCETO se na descrição do exercício estiver explícito.
 {-# OPTIONS_GHC -Wno-incomplete-patterns #-}
-
 module Root.Exercicios.Exercicios where
-
+import Data.List(sortOn)
 -- 1) (Valor da questão: 1,0 ponto)
 -- Defina uma função que retorne o maior entre quatro inteiros.
 maior4 :: Int -> Int -> Int -> Int -> Int
@@ -32,12 +31,16 @@ converterNotaParaMencao nota
   | nota >= 7.0 && nota < 9.0 = "MS"
   | otherwise = "SS"
 
---  | nota>=9.0 && nota<=10.0 = "SS"
-
 -- 3) (Valor da questão: 1,0 ponto)
 -- defina uma função que retorna um booleano indicando se uma lista de inteiros é decrescente ou não:
+
 isDecrescente :: [Int] -> Bool
-isDecrescente = undefined
+isDecrescente [] = True
+isDecrescente [lst] = True
+isDecrescente (lst:lst2)
+ | lst <= head lst2 = False
+ | null lst2 = True
+ | otherwise = isDecrescente lst2
 
 -- 4) (Valor da questão: 2,0 pontos)
 -- defina uma função que recebe uma lista de strings como entrada e computa uma lista de pares
@@ -50,7 +53,9 @@ histograma = undefined
 -- retornando uma lista de valores resultantes da aplicação dessa função nos elementos correspondentes dessas
 -- listas:
 myZipWith :: (a -> b -> c) -> [a] -> [b] -> [c]
-myZipWith = undefined
+myZipWith func [] _ = []
+myZipWith func _ [] = []
+myZipWith func (a:as) (b:bs) = func a b : myZipWith func as bs
 
 -- 6) (Valor da questão: 2,0 ponto)
 -- Resolva em Haskell o seguinte problema: a partir de duas notas das provas de cada aluno,
@@ -58,8 +63,17 @@ myZipWith = undefined
 -- ordenado crescentemente pela média aritmética das notas. A aprovação ocorre se, e somente se, tal
 -- média é maior ou igual a cinco.
 -- OBSERVAÇÃO: especificamente para este exercício, você pode importar as funções de ordenaçao de listas (como 'sort' ou 'sortBy') se achar necessário.
-aprovadosOrdemDeMedia :: [(String, Float, Float)] -> [(String, Float)]
-aprovadosOrdemDeMedia = undefined
+
+aprovadosMedia :: [(String, Float, Float)] -> [(String, Float)]
+aprovadosMedia [] = []
+aprovadosMedia ((name,nota1,nota2):restante)
+ | media >=5 = (name,media) : aprovadosMedia restante
+ | otherwise = aprovadosMedia restante
+ where 
+  media = (nota1 +nota2)/2
+
+
+aprovadosOrdemDeMedia media = reverse (sortOn snd (aprovadosMedia media))
 
 -- 7) (Valor da questão: 1,5 ponto, sendo 0.5 ponto para cada letra)
 -- Considere a representação de matrizes como lista de listas em que cada elemento da lista é uma lista
