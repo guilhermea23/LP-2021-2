@@ -1,7 +1,7 @@
 -- Intruções:
 -- -  Não importe nenhuma biblioteca EXCETO se na descrição do exercício estiver explícito.
 {-# OPTIONS_GHC -Wno-incomplete-patterns #-}
-module Root.Exercicios.Exercicios where
+module Trab1.Tr where
 import Data.List(sortOn)
 -- 1) (Valor da questão: 1,0 ponto)
 -- Defina uma função que retorne o maior entre quatro inteiros.
